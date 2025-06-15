@@ -10,10 +10,17 @@ public class ItemBox : MonoBehaviour
     // どこからでもアクセスできるようにする
     public static ItemBox instance;
     Slot selectSlot; // 選択中のスロット
+    public GameObject ItemBoxCanvas;
+    
 
     private void Awake()
     {
         instance = this;
+    }
+
+    public void Start()
+    {
+        ItemBoxManager.Instance.LoadItemBox();
     }
 
     // アイテムを受け取る処理
@@ -28,6 +35,11 @@ public class ItemBox : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public Slot[] GetSlots()
+    {
+        return slots;
     }
 
     // スロットをクリックしたら選択状態にする

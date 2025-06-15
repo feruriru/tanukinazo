@@ -19,7 +19,6 @@ public class ItemDatabase : MonoBehaviour
     {
         foreach (Item itemData in itemDatabaseEntity.items)
         {
-            Debug.Log("seikou");
             // データベースから一致するアイテムを探す
             if (itemData.type == type)
             {

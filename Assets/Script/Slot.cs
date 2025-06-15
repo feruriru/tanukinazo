@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] GameObject backPanel = default; // 選択枠
     [SerializeField] Image image = default;
     Item item = null;
+    private static Item selectedItem = null;
+    private static Slot selectedSlot = null;
 
      private void Start()
     {
@@ -20,7 +23,8 @@ public class Slot : MonoBehaviour
     {
         this.item = item;
         image.sprite = item.sprite;
-    }
+        Debug.Log("get")
+;    }
 
      // アイテムをスロットから削除
     public void RemoveItem() 
@@ -53,5 +57,43 @@ public class Slot : MonoBehaviour
     {
         backPanel.SetActive(false);
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(selectedItem == null && item != null)
+        {
+            selectedItem = item;
+            selectedSlot = this;
+
+            RemoveItem();
+            OnSelect();
+        }
+        else if(selectedItem != null)
+        {
+            if(this == selectedSlot)
+            {
+                Set(selectedItem);
+                selectedItem = null;
+                selectedSlot = null;
+                HideBackPanel();
+                return;
+            }
+
+            Item temp = item;
+            Set(selectedItem);
+
+            if(selectedSlot != null)
+            {
+                if(temp != null)
+                  selectedSlot.Set(temp);
+                else
+                  selectedSlot.HideBackPanel();  
+            }
+
+            selectedItem = null;
+            selectedSlot = null;
+        }
+    }
+
 }
 

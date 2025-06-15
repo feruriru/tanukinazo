@@ -8,6 +8,7 @@ public class button_tut_2 : MonoBehaviour
 {
    public void ClickStartButton()
     {
+        ItemBoxManager.Instance.SaveItemBox();
         SceneManager.LoadScene("Tutorial-1");
     }
 }
