@@ -15,12 +15,25 @@ public class ItemBox : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }     
     }
 
-    public void Start()
+    private IEnumerator Start()
     {
-        ItemBoxManager.Instance.LoadItemBox();
+        yield return null;
+
+        if(ItemBoxManager.Instance != null)
+        {
+          ItemBoxManager.Instance.LoadItemBox();
+        }
     }
 
     // アイテムを受け取る処理
